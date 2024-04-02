@@ -1,28 +1,19 @@
-def calculate_sum(numbers):
-    try:
-        total = sum(numbers)
-        return total
-    except TypeError:
-        raise ValueError("Помилка: переданий аргумент повинен бути списком чисел")
+import requests
 
+BASE_URL = "https://fakestoreapi.com"
+def get_data(endpoint):
+    return requests.get(f"{BASE_URL}{endpoint}").json()
+def display_list(items):
+    for i in items:        print(f"{i["id"]} - {i["title"]}")
 
+def get_ch_user():
+    ch_user = input("Please enter number products: ")    if type(ch_user) == str:
+        print("You choice incorrect!")        get_ch_user()
+    elif int(ch_user) >= 21 or int(ch_user) <= 0:        print("You choice incorrect!")
+        get_ch_user()
+    return int(ch_user)
 def main():
-    try:
-        numbers = []
-        while True:
-            try:
-                num = float(input("Введіть число (або негативне, щоб завершити введення): "))
-                if num < 0:
-                    break
-                numbers.append(num)
-            except ValueError:
-                print("Помилка: введіть число.")
+    products = get_data('/products')    display_list(products)
+    ch_user = get_ch_user()    print("It's Worked! ", get_data(f"/products/{ch_user}"))
 
-        total = calculate_sum(numbers)
-        print(f"Сума елементів списку: {total}")
-    except ValueError as ve:
-        print(f"Помилка: {ve}")
-
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__":    main()
