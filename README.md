@@ -1,1 +1,0 @@
-# Pahulych_pv421_hw_piton
